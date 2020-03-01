@@ -1,4 +1,4 @@
-#include "defs.h"
+#include "scrolling.h"
 
 
 SDL_Rect scroll_function(SDL_Rect *camera , int *b , SDL_Surface *ecran , SDL_Surface *background)
