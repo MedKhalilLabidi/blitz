@@ -20,7 +20,7 @@
 #define FPS 30
 #define speed 5
 
-SDL_Rect scroll_function(SDL_Rect *camera , int *b , SDL_Surface *ecran , SDL_Surface *background);
+void scroll_function( int b ,SDL_Rect *camera );
 
 
 #endif 
