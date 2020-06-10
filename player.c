@@ -1,3 +1,6 @@
+/**
+* @file  player.c
+*/
 #include<stdio.h>
 #include<stdlib.h>
 #include"SDL/SDL.h"
@@ -12,14 +15,22 @@
 #include"game.h"
 #include"game2.h"
 
-
+/**
+* @brief to chose player .
+* @param c to type of contoller
+* @return Nothing
+*/
 void playerchoise(int *c){
 	int n=10;
-	SDL_Surface *image1,*image2;
-	int buthov=-1;
+	
+  SDL_Rect position;
+	int buthov=-1; int butpre=-1;
 	SDL_Event event;
 	int done=0;
-show_background();
+position.x=0;
+position.y=0;
+SDL_BlitSurface(b.image,NULL,screen,&position);
+
 
 showbutton(10);
 showbutton(11);
@@ -29,11 +40,53 @@ while((*c)==0 && done !=1){
 { case SDL_QUIT:
  done=1;
  break;
-
+case SDL_KEYDOWN:
   switch(event.key.keysym.sym){
      case SDLK_ESCAPE:
        done=1;
+       
        break;
+         case SDLK_RIGHT:
+    if(buthov==-1){buthov=10;}
+butpre=buthov;
+ buthov++;
+if(buthov>=12){buthov=10;}
+            buttons[butpre].state=1;
+    buttons[buthov].state=2;
+   showbutton(buthov);
+ showbutton(butpre);
+     break;
+
+
+ case SDLK_LEFT:
+ if(buthov==-1){buthov=11;}
+   butpre=buthov;
+     buthov--;
+     if(buthov<10){buthov=11;}
+            buttons[butpre].state=1;
+    buttons[buthov].state=2;
+   showbutton(buthov);
+ showbutton(butpre);
+
+    break;
+case SDLK_RETURN:
+    if(buthov==11){
+     done=1;
+
+(*c)=2;
+  done=1;
+
+
+   }
+   if(buthov==10){
+     done=1;
+
+(*c)=1;
+  done=1;
+
+
+   }
+   break;
    }
 
 case SDL_MOUSEBUTTONDOWN:
@@ -115,6 +168,8 @@ break;
 }
 
 }
+show_background();
+showmenu3();
 
 }
 
@@ -125,10 +180,14 @@ break;
 
 
 
+/**
+* @brief To chose solo or coop .
+* @param c to type of contoller
+* @return Nothing
+*/
 
 
-
-void player(){
+void player(int controller){
 int 	c=0;
 int done=0;SDL_Event event;int tma=0,tmp=0;
 int buthov=-1;int butpre=-1;int delay=0;
@@ -136,6 +195,7 @@ int i=0;
 SDL_Rect position;
 position.x=0;
 position.y=0;
+
 show_background();
 showmenu3();
 while(done!=1)
@@ -165,7 +225,7 @@ case SDL_KEYDOWN:
        done=1;
 break;
     case SDLK_DOWN:
-      
+      if(buthov==-1 || buthov<=6){buthov=7;}
 butpre=buthov;
  buthov++;
 if(buthov>=10){buthov=7;}
@@ -188,17 +248,19 @@ if(buthov>=10){buthov=7;}
 
     break;
 case SDLK_RETURN:
+
     if(buthov==9){
      done=1;}
     }
 case SDL_MOUSEBUTTONDOWN:
+if(buthov==-1){buthov=7;}
 if( mouseclick(7,event)==1){
 Mix_PlayChannel(1,b.son,0);
 buttons[7].state=3;
 update(7);
 playerchoise(&c);
 if(c!=0)
-   game(c);
+   game(c,controller);
    
 }
 
@@ -256,14 +318,12 @@ buthov=-1;
 break;
 
 case SDL_MOUSEBUTTONUP:
-if( mouseclick(7,event)==1 ){
+ if( mouseclick(7,event)==1 ){
 
-free_hero();
-freemap();}
+}
 if( mouseclick(8,event)==1 ){
 
-free_hero();
- freemap();}
+} 
 
 if( mouseclick(9,event)==1){
 done=1;
@@ -283,6 +343,8 @@ break;
 }
 
 }
+
 show_background();
 showmenu();
+
 }

@@ -1,3 +1,6 @@
+/**
+* @file menu.c
+*/
 #include<stdio.h>
 #include<stdlib.h>
 #include"SDL/SDL.h"
@@ -9,7 +12,12 @@
 #include"menu.h"
 #include"player.h"
 #include"game.h"
+/**
+* @brief To init menu .
+* @param n to nbr ob buttons
 
+* @return Nothing
+*/
 void init_menu(int *n){
 
 init_SDL();
@@ -26,31 +34,58 @@ loadbutton("images/back",690,731,n);
 loadbutton("images/1player",130,200,n);
 loadbutton("images/2player",130,440,n);
 loadbutton("images/back",130,710,n);
-loadbutton("images/1hero",600,500,n);
-loadbutton("images/2hero",900,500,n);
+loadbutton("images/1hero",800,400,n);
+loadbutton("images/2hero",1000,400,n);
+loadbutton("images/keyboard",800,700,n);
+
+loadbutton("images/mouse",1050,700,n);
+
+
 }
+/**
+* @brief show menu 1.
+* @return Nothing
+*/
 void showmenu(){
 int i;
 for(i=0;i<3;i++){
 showbutton(i);}
 }	
-
+/**
+* @brief show menu 2.
+* @return Nothing
+*/
 void showmenu2(){
-showbutton(6);
+
 showbutton(5);
 showbutton(4);
+showbutton(12);
+showbutton(13);
 
 }
+/**
+* @brief show menu 3.
+* @return Nothing
+*/
 void showmenu3(){
 showbutton(7);
 showbutton(8);
 showbutton(9);
+
 }
+/**
+* @brief update button.
+* @param n number of the buttons
+* @return Nothing
+*/
 void update(int n){
 showbutton(n);
 }
 
-
+/**
+* @brief sound setting.
+* @return Nothing
+*/
 
 void soundsettting(){float t;int s;
 s=buttons[3].pos.x;
@@ -64,9 +99,12 @@ s=t;
 Mix_VolumeMusic(t);
 
 }
-
+/**
+* @brief settings menu.
+* @return Nothing
+*/
 	
-void settings(int n){
+void settings(int n,int *controller){
 
 SDL_Rect pos;
 int done=0;SDL_Event event;
@@ -82,7 +120,11 @@ showbutton(3);
 showmenu2();
 while(done!=1){
 while(SDL_PollEvent(&event))
-{switch(event.type)
+
+{
+
+
+  switch(event.type)
 {case SDL_QUIT:
 done=1;
 break;
@@ -100,9 +142,13 @@ SDL_BlitSurface(b1.image2,NULL,screen,&pos);
  soundsettting();
 update(3);
 }}
-else if( mouseclick(6,event)==1){
-buttons[6].state=2;
-update(6);
+else if( mouseclick(13,event)==1){
+buttons[13].state=2;
+update(13);
+}
+else if( mouseclick(12,event)==1){
+buttons[12].state=2;
+update(12);
 }
 else if( mouseclick(5,event)==1){
 buttons[5].state=2;
@@ -113,7 +159,8 @@ buttons[4].state=2;
 update(4);
 hover=1;}
 else {
-buttons[6].state=1;
+	buttons[13].state=1;
+buttons[12].state=1;
 buttons[5].state=1;
 buttons[4].state=1;
 buttons[3].state=1;
@@ -122,10 +169,17 @@ showmenu2();
 
 break;
 case SDL_MOUSEBUTTONDOWN:
-if( mouseclick(6,event)==1){
+if( mouseclick(13,event)==1){
 Mix_PlayChannel(1,b.son,0);
-buttons[6].state=3;
-update(6);
+buttons[13].state=3;
+update(13);
+(*controller)=1;
+}
+if( mouseclick(12,event)==1){
+Mix_PlayChannel(1,b.son,0);
+buttons[12].state=3;
+update(12);
+(*controller)=0;
 }
 if( mouseclick(5,event)==1){
 Mix_PlayChannel(1,b.son,0);
@@ -149,9 +203,12 @@ drag=1;
 break;
 
 case SDL_MOUSEBUTTONUP:
-if( mouseclick(6,event)==1){
-update(6);
-done=1;}
+if( mouseclick(13,event)==1){
+update(13);
+}
+if( mouseclick(12,event)==1){
+update(12);
+}
 if( mouseclick(5,event)==1){
 screen=SDL_SetVideoMode(1920,1080,32,SDL_SWSURFACE | SDL_DOUBLEBUF | SDL_RESIZABLE   );
 show_background();
@@ -173,7 +230,8 @@ showmenu2();
 buttons[3].state=1;
 buttons[4].state=1;
 buttons[5].state=1;
-buttons[6].state=1;
+buttons[12].state=1;
+buttons[13].state=1;
 showmenu2();
 
 drag=0;
@@ -187,7 +245,10 @@ showmenu();
 }
 
 
-
+/**
+* @brief show menu .
+* @return Nothing
+*/
 
 
 void menu(){
@@ -199,6 +260,7 @@ SDL_Rect position;
 position.x=0;
 position.y=0;
 SDL_Rect pos,possprite;
+int controller=0;
 
 init_menu(&n);
 
@@ -251,10 +313,10 @@ if(buthov>=3){buthov=0;}
     break;
 case SDLK_RETURN:
     if(buthov==1){
-     settings(n);}
+     settings(n,&controller);}
 if(buthov==2)
 {done=1;}
-if(buthov==0){player();}
+if(buthov==0){player(controller);}
 break;
     }
 case SDL_MOUSEBUTTONDOWN:
@@ -319,11 +381,11 @@ break;
 
 case SDL_MOUSEBUTTONUP:
 if( mouseclick(0,event)==1){
-player();
+player(controller);
 show_background();}
 
 if( mouseclick(1,event)==1){
-settings(n);}
+settings(n,&controller);}
 if( mouseclick(2,event)==1){
 done=1;
 }
@@ -346,8 +408,7 @@ break;
 freebackground();
 freebuttons();
 SDL_FreeSurface(screen);
-TTF_Quit();
-SDL_Quit();
+
 
 
 }

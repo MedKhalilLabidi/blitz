@@ -1,9 +1,13 @@
-prog: background.o button.o  menu.o hero.o game.o player.o CollisionParfaite.o scrolling.o anime.o game2.o main.o
-	gcc background.o button.o  menu.o hero.o game.o player.o CollisionParfaite.o scrolling.o anime.o game2.o main.o -o prog -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer 
+prog: background.o button.o  menu.o hero.o game.o player.o CollisionParfaite.o scrolling.o anime.o deplacement.o time.o game2.o main.o
+	gcc background.o button.o  menu.o hero.o game.o player.o CollisionParfaite.o scrolling.o anime.o deplacement.o time.o game2.o main.o -o prog -lSDL -lSDL_image -lSDL_ttf -lSDL_mixer 
 main.o:main.c
 	gcc -c main.c 
 game2.o:game2.c
 	gcc -c game2.c
+time.o:time.c
+	gcc -c time.c
+deplacement.o:deplacement.c
+	gcc -c deplacement.c
 anime.o:anime.c
 	gcc -c anime.c
 scrolling.o:scrolling.c

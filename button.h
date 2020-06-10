@@ -1,9 +1,14 @@
+/**
+* @struct Background
+* @brief struct for backround
+*/
+
 typedef struct{
-SDL_Rect pos;
-SDL_Surface *imageup;
-SDL_Surface *imagedown;
-SDL_Surface *imageover;
-int state;
+SDL_Rect pos;/*!< Rectangle*/
+SDL_Surface *imageup;/*!< Surface. */
+SDL_Surface *imagedown;/*!< Surface. */
+SDL_Surface *imageover;/*!< Surface. */
+int state;/*!< integers. */
 }button;
 
 

@@ -1,3 +1,13 @@
+/**
+* @file game.c
+* @brief Testing game coop.
+* @author Khalil
+* @version 2.0
+* @date June 01, 2020
+*
+* coop game
+*
+*/
 #include<stdio.h>
 #include<stdlib.h>
 #include"SDL/SDL.h"
@@ -15,6 +25,7 @@
 #include"game2.h"
 void game2(){
 int done=0;
+int startTicks=0;
 int keyheld[323]={0};
 SDL_Surface *b2;
 SDL_Rect pos,camera;
@@ -22,11 +33,12 @@ SDL_Event event;
 int dec=0;int dec2=0;
 int timereal=0;
 int oldtime=0;
+int nbre=1;
 load_map(2);
  show_map(2);
 init_hero("images/sprites4.png",&H,970);
 init_hero("images/sprites2.png",&H2,0);
-init_anime();
+init_anime(nbre);
 
 afficher_hero(H,0);
 afficher_hero(H2,1000);
@@ -40,17 +52,42 @@ afficher_hero(H,0);
 afficher_hero(H2,1000);
 timereal=SDL_GetTicks();
 	
-deplacer(timereal);
+deplacer(timereal,nbre);
 
-afficher_anime(dec,2);
+afficher_anime(dec,2,nbre);
+
+
+
 SDL_Flip(screen);
 
-if (collisionBox(H.pos,A.posa2)==1)
+if(collisionParfaite(Map.masque,H.images,H.pos,dec-970,3)!=1)
+
+ H.pos.y+=5;
+if(collisionParfaite(Map.masque,H.images,H2.pos,dec2,3)!=1)
+
+ H2.pos.y+=5;
+
+if (collisionBox(H2.pos,A[1].posa)==1)
+	{
+H2.score-=100;
+H2.vie-=1;
+
+updatescore(2);
+if(H2.direction==0)
+H2.pos.x-=100;
+Map.camera.x-=100;
+if(H2.direction==1)
+	H2.pos.x+=100;
+Map.camera.x+=100;
+}
+
+
+if (collisionBox(H.pos,A[1].posa2)==1)
 	{
 H.score-=100;
 H.vie-=1;
 
-updatescore(&H);
+updatescore(1);
 if(H.direction==0)
 H.pos.x-=100;
 Map.camera2.x-=100;
@@ -59,19 +96,6 @@ H.pos.x+=100;
 Map.camera2.x+=100;
 }
 
-if (collisionBox(H2.pos,A.posa)==1)
-	{
-H2.score-=100;
-H2.vie-=1;
-
-updatescore(&H2);
-if(H2.direction==0)
-H2.pos.x-=100;
-Map.camera.x-=100;
-if(H.direction==1)
-H2.pos.x+=100;
-Map.camera.x+=100;
-}
 
 
 
@@ -94,9 +118,12 @@ keyheld[event.key.keysym.sym]=0;
 
 
 }
-deplacer2(keyheld,&dec,&dec2);
+deplacer2(keyheld,&dec,&dec2,&startTicks);
 
 }
+
+ free_hero();
+ freemap();
 
 
 }

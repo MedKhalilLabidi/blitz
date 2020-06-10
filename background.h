@@ -1,11 +1,15 @@
+/**
+* @struct Background
+* @brief struct for backround
+*/
 typedef struct{
-SDL_Surface *image,*image2;
-SDL_Surface *anim[9];
-SDL_Surface *text,*title;
-SDL_Rect pos,postxt,postitle;
-TTF_Font *police,*police2;
-Mix_Music *music;
-Mix_Chunk *son;
+SDL_Surface *image,*image2;/*!< Surface. */
+SDL_Surface *anim[9];/*!< Surface. */
+SDL_Surface *text,*title;/*!< Surface. */
+SDL_Rect pos,postxt,postitle;/*!< Rectangle*/
+TTF_Font *police,*police2;/*!< font*/
+Mix_Music *music;/*!< music*/
+Mix_Chunk *son;/*!< son*/
 }background;
 background b,bgame;
 background b1;

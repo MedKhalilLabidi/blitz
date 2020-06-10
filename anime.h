@@ -3,11 +3,11 @@ typedef struct
 SDL_Surface *imagesa;
 int directiona;
 }anime;
-anime A;
+anime A[20];
 
 
-void init_anime();
-void animate_anime();
-void afficher_anime(int dec,int n);
-void deplacer(int timereal) ;
+void init_anime(int nbr);
+void animate_anime(int nbr);
+void afficher_anime(int dec,int n,int nbr);
+void deplacer(int timereal,int nbr ) ;
 

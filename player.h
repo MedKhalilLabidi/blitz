@@ -1,3 +1,3 @@
 
 void playerchoise(int *c);
-void player();
+void player(int controller);
