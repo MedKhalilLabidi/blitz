@@ -5,8 +5,7 @@
 #include <SDL/SDL_image.h>
 
 #define TEMPS   30 //Le temps entre chaque augmentation de l'angle.
-
-int main(int argc, char *argv[])
+void rotozoom(int argc, char *argv[])
 {
     SDL_Surface *ecran=NULL, *image=NULL , *rotation=NULL ;
     SDL_Rect rect;
@@ -55,5 +54,5 @@ else
 SDL_FreeSurface(ecran);
 SDL_FreeSurface(image);
 SDL_Quit();
-return EXIT_SUCCESS;
+
 }
